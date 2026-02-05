@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Cloud Cost Monitor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .card { border: none; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .header-section { background: linear-gradient(135deg, #232f3e 0%, #37475a 100%); color: white; padding: 40px 0; margin-bottom: 30px; }
+        #lastUpdate { font-size: 0.9rem; opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+<div class="header-section text-center">
+    <div class="container">
+        <h1>Cloud Cost Calculator</h1>
+        <p class="lead">Monitoring your AWS spending efficiently</p>
+        <div id="lastUpdate">Loading data...</div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <!-- Summary Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 text-center p-4">
+                <h5 class="text-muted">Total (Last 7 Days)</h5>
+                <h2 class="display-4 fw-bold text-primary" id="totalAmount">$0.00</h2>
+                <div id="dateRange" class="text-muted small"></div>
+            </div>
+        </div>
+
+        <!-- Chart Card -->
+        <div class="col-md-8 mb-4">
+            <div class="card p-4">
+                <h5>Cost breakdown by Service</h5>
+                <canvas id="costChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function loadDashboardData() {
+        try {
+            const response = await fetch('data.json');
+            if (!response.ok) throw new Error('Data not available yet');
+            const data = await response.json();
+
+            // Update Header & Summary
+            document.getElementById('lastUpdate').innerText = `Last Updated: ${data.last_update}`;
+            document.getElementById('dateRange').innerText = data.period;
+
+            let total = 0;
+            const labels = [];
+            const amounts = [];
+
+            data.costs.forEach(item => {
+                total += item.amount;
+                labels.push(item.service);
+                amounts.push(item.amount);
+            });
+
+            document.getElementById('totalAmount').innerText = `$${total.toFixed(2)}`;
+
+            // Create Chart
+            const ctx = document.getElementById('costChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Cost (USD)',
+                        data: amounts,
+                        backgroundColor: '#ff9900',
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+
+        } catch (error) {
+            console.error('Error loading dashboard:', error);
+            document.getElementById('lastUpdate').innerHTML = 
+                '<span class="badge bg-warning text-dark">Lambda report not generated yet. Please wait for the first execution.</span>';
+        }
+    }
+
+    loadDashboardData();
+</script>
+
+</body>
+</html>

@@ -14,3 +14,8 @@ variable "billing_threshold" {
   type        = number
   default     = 10
 }
+
+variable "dashboard_bucket_name" {
+  description = "Unique name for the S3 bucket hosting the dashboard"
+  type        = string
+}
