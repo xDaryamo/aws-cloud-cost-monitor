@@ -26,7 +26,7 @@ resource "aws_cloudwatch_metric_alarm" "billing_alarm" {
   period              = "21600" # 6 hours
   statistic           = "Maximum"
   threshold           = var.billing_threshold
-  alarm_description   = "This alarm triggers if the estimated charges exceed $${var.billing_threshold}"
+  alarm_description   = "This alarm triggers if the estimated charges exceed ${var.billing_threshold}"
   alarm_actions       = [aws_sns_topic.billing_alerts.arn]
 
   dimensions = {
