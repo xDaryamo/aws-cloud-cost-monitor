@@ -19,3 +19,16 @@ provider "aws" {
     }
   }
 }
+
+# Specific provider for Virginia (us-east-1) required for CloudFront SSL certificate
+provider "aws" {
+  alias  = "virginia"
+  region = "us-east-1"
+
+  default_tags {
+    tags = {
+      Project   = "CloudCostCalculator"
+      ManagedBy = "Terraform"
+    }
+  }
+}

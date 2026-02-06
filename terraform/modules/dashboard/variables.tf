@@ -1,10 +1,9 @@
 variable "bucket_name" {
-  description = "Name of the S3 bucket for the dashboard"
-  type        = string
+  description = "Name of the S3 bucket for the website"
+  type        = "string"
 }
 
-variable "project_name" {
-  description = "Project name for tagging"
-  type        = string
-  default     = "CloudCostCalculator"
+variable "domain_name" {
+  description = "Custom domain name (e.g., aws-monitor-cost.dariomazza.net)"
+  type        = "string"
 }

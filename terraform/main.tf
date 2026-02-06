@@ -6,7 +6,21 @@ module "alerts" {
 }
 
 module "dashboard" {
+
   source = "./modules/dashboard"
 
+
+
   bucket_name = var.dashboard_bucket_name
+
+  domain_name = "aws-monitor-cost.dariomazza.net"
+
+  providers = {
+
+    aws.virginia = aws.virginia
+
+  }
+
 }
+
+
