@@ -2,7 +2,7 @@
 
 ## The Business Problem: "The $30,000 Surprise"
 
-For many small businesses and startups, moving to the cloud brings a hidden danger: billing complexity. With over 200 AWS services—each with its own pricing model (per hour, per GB, per request)—it is alarmingly easy for a team to provision resources expecting a $500 bill, only to receive a $5,000 invoice at the end of the month due to a forgotten instance or a misconfigured loop.
+For many small businesses and startups, moving to the cloud brings a hidden danger: billing complexity. With over 200 AWS services, each with its own pricing model (per hour, per GB, per request), it is alarmingly easy for a team to provision resources expecting a $500 bill, only to receive a $5,000 invoice at the end of the month due to a forgotten instance or a misconfigured loop.
 
 I built this project to solve a specific business pain point: **Opacity**. Business owners shouldn't need a cloud certification to know if they are burning cash.
 
